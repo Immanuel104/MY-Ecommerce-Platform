@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 
+const authHeaders = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+
 const AdminProducts = () => {
     const [products, setProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -28,7 +30,7 @@ const AdminProducts = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
             try {
-                await axios.delete(`${API_BASE_URL}/api/products/${id}`);
+                await axios.delete(`${API_BASE_URL}/api/products/${id}`, authHeaders());
                 fetchProducts();
             } catch (err) {
                 console.error("Error deleting product", err);
@@ -102,9 +104,9 @@ const AdminProducts = () => {
             console.log("Sending product data to server:", productData);
 
             if (editingId) {
-                await axios.put(`${API_BASE_URL}/api/products/${editingId}`, productData);
+                await axios.put(`${API_BASE_URL}/api/products/${editingId}`, productData, authHeaders());
             } else {
-                await axios.post(`${API_BASE_URL}/api/products`, productData);
+                await axios.post(`${API_BASE_URL}/api/products`, productData, authHeaders());
             }
             setShowModal(false);
             setEditingId(null);

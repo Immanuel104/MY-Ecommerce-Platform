@@ -132,6 +132,7 @@ const Navbar = () => {
                         <Link to="/" className="hidden lg:block text-gray-600 hover:text-primary font-medium transition">Home</Link>
                         <Link to="/shop" className="hidden lg:block text-gray-600 hover:text-primary font-medium transition">Shop</Link>
                         <Link to="/orders" className="hidden lg:block text-gray-600 hover:text-primary font-medium transition">Orders</Link>
+                        <Link to="/sell" className="hidden lg:block bg-amber-300 text-dark font-bold px-4 py-1.5 rounded-full hover:bg-amber-400 hover:-translate-y-0.5 transition">Sell</Link>
 
                         <Link to="/cart" className="relative text-gray-600 hover:text-primary transition">
                             <ShoppingCart className="w-6 h-6" />
@@ -218,6 +219,7 @@ const Navbar = () => {
                             <Link to="/" onClick={() => setShowMobileMenu(false)} className="text-gray-700 font-medium hover:text-primary">Home</Link>
                             <Link to="/shop" onClick={() => setShowMobileMenu(false)} className="text-gray-700 font-medium hover:text-primary">Shop</Link>
                             <Link to="/orders" onClick={() => setShowMobileMenu(false)} className="text-gray-700 font-medium hover:text-primary">Orders</Link>
+                            <Link to="/sell" onClick={() => setShowMobileMenu(false)} className="text-gray-700 font-bold hover:text-primary">Sell your stuff</Link>
                             {isAuthenticated && (
                                 <>
                                     <Link to="/profile" onClick={() => setShowMobileMenu(false)} className="text-gray-700 font-medium hover:text-primary">My Profile</Link>

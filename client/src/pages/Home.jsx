@@ -121,20 +121,20 @@ const Home = () => {
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div className="space-y-7 animate-slideInUp">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-dark leading-[1.05] tracking-tight">
-                                Find something you'll love, delivered to your door.
+                                Buy and sell things you love, right here in Nairobi.
                             </h1>
 
                             <p className="text-base md:text-xl text-gray-500 max-w-lg leading-relaxed">
-                                Fashion, beauty, electronics and home picks from Immanuel's Store in Nairobi.
+                                Shop from friendly local sellers, or list your own items in a couple of minutes.
                             </p>
 
                             <div className="flex flex-col sm:flex-row flex-wrap gap-4">
                                 <Link to="/shop" className="bg-primary text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-indigo-700 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40">
                                     Start shopping <ArrowRight className="w-5 h-5" />
                                 </Link>
-                                <a href="#categories" className="bg-white text-dark px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-gray-50 transition-all border border-gray-200 shadow-sm text-center focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/30">
-                                    Browse categories
-                                </a>
+                                <Link to="/sell" className="bg-amber-300 text-dark px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-amber-400 transition-all shadow-sm text-center focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300/50">
+                                    Sell something
+                                </Link>
                             </div>
 
                             {categories.length > 0 && (

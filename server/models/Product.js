@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  description: { type: String, required: true },
+  description: { type: String, default: '' },
   price: { type: String, required: true }, // Keeping as string for "KSh 5,000" format ease or number (for backward compatibility)
   regularPrice: { type: Number }, // MRP / Regular Price
   sellPrice: { type: Number }, // Actual Selling Price
@@ -10,6 +10,9 @@ const ProductSchema = new mongoose.Schema({
   images: [{ type: String }], // Array of additional images
   category: { type: String, required: true },
   stock: { type: Number, default: 10 },
+  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // who listed it (empty = store's own item)
+  sellerName: { type: String, default: '' },
+  contactPhone: { type: String, default: '' }, // seller's phone / WhatsApp
   specifications: { type: mongoose.Schema.Types.Mixed, default: {} }, // Product specifications as key-value pairs
 }, { timestamps: true });
 

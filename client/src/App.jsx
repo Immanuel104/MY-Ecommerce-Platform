@@ -9,6 +9,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Profile from './pages/Profile';
+import Sell from './pages/Sell';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/ProductManager';
@@ -81,6 +82,12 @@ function AppContent() {
             <Navbar /><Orders />
           </ProtectedRoute>
         } />
+        <Route path="/sell" element={
+          <ProtectedRoute>
+            <Navbar /><Sell />
+          </ProtectedRoute>
+        } />
+
         <Route path="/profile" element={
           <ProtectedRoute>
             <Navbar /><Profile />

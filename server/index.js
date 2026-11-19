@@ -322,10 +322,24 @@ app.get('/api/products/:id', async (req, res) => {
     }
 });
 
-// Add Product (Seed or Admin)
-app.post('/api/products', async (req, res) => {
+// My listings (seller dashboard)
+app.get('/api/my-products', authMiddleware, async (req, res) => {
     try {
-        const newProduct = new Product(req.body);
+        const products = await Product.find({ seller: req.user._id }).sort({ createdAt: -1 });
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Add Product (any logged-in user can sell)
+app.post('/api/products', authMiddleware, async (req, res) => {
+    try {
+        const newProduct = new Product({
+            ...req.body,
+            seller: req.user._id,
+            sellerName: req.user.name
+        });
         const savedProduct = await newProduct.save();
         io.emit('newProduct', savedProduct);
         res.status(201).json(savedProduct);
@@ -434,10 +448,18 @@ app.delete('/api/orders/:id', async (req, res) => {
     }
 });
 
+// Only the seller who listed a product (or an admin) may change it
+const canEditProduct = (product, user) =>
+    user.role === 'admin' || (product.seller && product.seller.toString() === user._id.toString());
+
 // Update Product
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', authMiddleware, async (req, res) => {
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        if (!canEditProduct(product, req.user)) return res.status(403).json({ error: 'You can only edit your own listings' });
+        const { seller, sellerName, ...updates } = req.body;
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updates, { new: true });
         res.json(updatedProduct);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -445,8 +467,11 @@ app.put('/api/products/:id', async (req, res) => {
 });
 
 // Delete Product
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', authMiddleware, async (req, res) => {
     try {
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        if (!canEditProduct(product, req.user)) return res.status(403).json({ error: 'You can only delete your own listings' });
         await Product.findByIdAndDelete(req.params.id);
         res.json({ message: 'Product deleted' });
     } catch (err) {

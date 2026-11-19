@@ -134,9 +134,32 @@ const ProductDetail = () => {
                             )}
                         </div>
 
-                        <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            {product.description}
+                        <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                            {product.description || "The seller hasn't added a description yet."}
                         </p>
+
+                        {/* Seller card */}
+                        <div className="flex items-center justify-between gap-4 bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-8">
+                            <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-11 h-11 rounded-full bg-amber-300 text-dark font-bold flex items-center justify-center text-lg shrink-0">
+                                    {(product.sellerName || "Immanuel's Store").charAt(0).toUpperCase()}
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-xs text-gray-500">Sold by</p>
+                                    <p className="font-bold text-dark truncate">{product.sellerName || "Immanuel's Store"}</p>
+                                </div>
+                            </div>
+                            {product.contactPhone && (
+                                <a
+                                    href={`https://wa.me/${product.contactPhone.replace(/\D/g, '').replace(/^0/, '254')}?text=${encodeURIComponent(`Hi! I'm interested in "${product.name}" on Immanuel's Store.`)}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="shrink-0 bg-green-500 text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-green-600 transition"
+                                >
+                                    Chat with seller
+                                </a>
+                            )}
+                        </div>
 
                         {/* Variants (Mock) */}
 
@@ -213,7 +236,7 @@ const ProductDetail = () => {
                         {activeTab === 'description' && (
                             <div className="prose max-w-none text-gray-600">
                                 <h3 className="text-2xl font-bold text-dark mb-4">Product Description</h3>
-                                <p className="mb-4">{product.description}</p>
+                                <p className="mb-4">{product.description || "The seller hasn't added a description yet."}</p>
                             </div>
                         )}
                         {activeTab === 'specifications' && (
@@ -230,12 +253,12 @@ const ProductDetail = () => {
                                             ))
                                         ) : (
                                             <div className="col-span-2 text-center py-8 text-gray-400">
-                                                <p>No specifications available for this product.</p>
+                                                <p>The seller hasn't added extra details yet.</p>
                                             </div>
                                         )
                                     ) : (
                                         <div className="col-span-2 text-center py-8 text-gray-400">
-                                            <p>No specifications data found. Please try adding them in the Admin Panel.</p>
+                                            <p>The seller hasn't added extra details yet.</p>
                                         </div>
                                     )}
                                 </div>
@@ -244,19 +267,10 @@ const ProductDetail = () => {
                         {activeTab === 'reviews' && (
                             <div>
                                 <h3 className="text-2xl font-bold text-dark mb-6">Customer Reviews</h3>
-                                <div className="space-y-6">
-                                    {[1, 2].map((review) => (
-                                        <div key={review} className="border-b border-gray-100 pb-6 last:border-0 last:pb-0">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="flex text-yellow-400">
-                                                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-                                                </div>
-                                                <span className="font-bold text-dark">Amazing Product!</span>
-                                            </div>
-                                            <p className="text-gray-600 mb-2">"Absolutely love this! The quality is outstanding and it arrived much faster than expected."</p>
-                                            <p className="text-xs text-gray-400">- Verified Buyer, 2 days ago</p>
-                                        </div>
-                                    ))}
+                                <div className="text-center py-10 text-gray-400">
+                                    <Star className="w-10 h-10 mx-auto mb-3 text-amber-300" />
+                                    <p className="font-bold text-dark mb-1">No reviews yet</p>
+                                    <p>Bought this item? Reviews are coming soon.</p>
                                 </div>
                             </div>
                         )}
